@@ -14,6 +14,8 @@ import java.util.List;
 
 public class Ah extends Command {
 
+    int price;
+
     public Ah(String command, String permission, String[] aliases, String description) {
         super(command, permission, aliases, description);
     }
@@ -36,7 +38,7 @@ public class Ah extends Command {
             }
 
             try {
-                int price = Integer.parseInt(args[1]);
+                price = Integer.parseInt(args[1]);
             } catch (NumberFormatException e) {
                 player.sendMessage(ChatColor.RED + "Invalid price!");
                 return;
