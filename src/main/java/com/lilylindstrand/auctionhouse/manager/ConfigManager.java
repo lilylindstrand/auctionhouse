@@ -38,11 +38,12 @@ public class ConfigManager {
 
     // Saves config data after loading the file, so that files only have to be accessed once, not every time the data is used.
     // TODO: /reload command
-    String dbHost;
-    int dbPort;
-    String dbDatabase;
-    String dbUsername;
-    String dbPassword;
+    static String dbHost;
+    static int dbPort;
+    static String dbDatabase;
+    static String dbUsername;
+    static String dbPassword;
+
     public void saveConfigData() {
         dbHost = dbConfiguration.getString("host");
         dbPort = dbConfiguration.getInt("port");
@@ -52,11 +53,11 @@ public class ConfigManager {
     }
 
     /* Getters */
-    public String getDbHost() { return dbHost; }
-    public int getDbPort() { return dbPort; }
-    public String getDbDatabase() { return dbDatabase; }
-    public String getDbUsername() { return dbUsername; }
-    public String getDbPassword() { return dbPassword; }
+    public static String getDbHost() { return dbHost; }
+    public static int getDbPort() { return dbPort; }
+    public static String getDbDatabase() { return dbDatabase; }
+    public static String getDbUsername() { return dbUsername; }
+    public static String getDbPassword() { return dbPassword; }
 
 
 
