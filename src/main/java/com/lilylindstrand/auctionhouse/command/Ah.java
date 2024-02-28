@@ -27,13 +27,22 @@ public class Ah extends Command {
             auctionHouseGUI.createGui();
         }
 
-        else if (args.length == 1 && args[0].equals("sell")) {
+        // Ensure command is structured as "/ah sell <price>"
+        else if (args.length == 2 && args[0].equals("sell") && (!args[1].isBlank())) {
             // Ensure player is holding an item before attempting to sell it
             if (player.getInventory().getItemInMainHand().getType() == Material.AIR) {
                 player.sendMessage(ChatColor.RED + "You are not holding an item!");
                 return;
             }
-            AuctionHouseSellGUI auctionHouseSellGUI = new AuctionHouseSellGUI(player);
+
+            try {
+                int price = Integer.parseInt(args[1]);
+            } catch (NumberFormatException e) {
+                player.sendMessage(ChatColor.RED + "Invalid price!");
+                return;
+            }
+
+            AuctionHouseSellGUI auctionHouseSellGUI = new AuctionHouseSellGUI(player, price);
             auctionHouseSellGUI.createGui();
         }
 

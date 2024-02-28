@@ -10,8 +10,10 @@ import xyz.xenondevs.invui.window.Window;
 public class AuctionHouseSellGUI {
 
     Player player;
-    public AuctionHouseSellGUI(Player player) {
+    int price;
+    public AuctionHouseSellGUI(Player player, int price) {
         this.player = player;
+        this.price = price;
     }
 
     public void createGui() {
