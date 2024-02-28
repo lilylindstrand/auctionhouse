@@ -2,6 +2,7 @@ package com.lilylindstrand.auctionhouse.gui;
 
 import com.lilylindstrand.auctionhouse.AuctionHouse;
 import com.lilylindstrand.auctionhouse.ItemSerializer;
+import com.lilylindstrand.auctionhouse.item.CancelItem;
 import com.lilylindstrand.auctionhouse.manager.DatabaseManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -23,12 +24,13 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-public class AuctionHouseGUI {
+public class AuctionHouseGUI extends GUI{
 
     Player player;
     DatabaseManager db;
     List<ItemStack> items;
     int index = 0;
+    Window window;
 
     public AuctionHouseGUI(Player player, DatabaseManager db) {
         this.player = player;
@@ -75,14 +77,15 @@ public class AuctionHouseGUI {
                         "#.......#",
                         "#.......#",
                         "#.......#",
-                        "#########")
+                        "####X####")
                 .addIngredient('#', new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE).setDisplayName("")))
                 .addIngredient('.', new SuppliedItem(supplier, null))
+                .addIngredient('X', new CancelItem(this))
                 .build();
 
         gui.addItems();
 
-        Window window = Window.single()
+        window = Window.single()
                 .setViewer(player)
                 .setTitle("Auction House")
                 .setGui(gui)
@@ -91,4 +94,13 @@ public class AuctionHouseGUI {
         window.open();
     }
 
+    @Override
+    public void closeGUI() {
+        window.close();
+    }
+
+    @Override
+    public void onConfirm() {
+
+    }
 }

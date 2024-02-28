@@ -26,7 +26,7 @@ import xyz.xenondevs.invui.window.Window;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AuctionHouseSellGUI {
+public class AuctionHouseSellGUI extends GUI {
 
     Player player;
     int price;
@@ -75,15 +75,16 @@ public class AuctionHouseSellGUI {
         window.open();
     }
 
-    public void confirmSell() {
+    @Override
+    public void closeGUI() {
+        window.close();
+    }
+
+    @Override
+    public void onConfirm() {
         window.close();
         db.listItem(ItemSerializer.encode(player.getInventory().getItemInMainHand()), player.getUniqueId(), price);
         player.getInventory().removeItem(player.getInventory().getItemInMainHand());
     }
-
-    public void cancel() {
-        window.close();
-    }
-
 }
 

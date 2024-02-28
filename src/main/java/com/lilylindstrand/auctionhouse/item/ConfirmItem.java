@@ -1,6 +1,7 @@
 package com.lilylindstrand.auctionhouse.item;
 
 import com.lilylindstrand.auctionhouse.gui.AuctionHouseSellGUI;
+import com.lilylindstrand.auctionhouse.gui.GUI;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -13,8 +14,8 @@ import xyz.xenondevs.invui.item.impl.AbstractItem;
 
 public class ConfirmItem extends AbstractItem {
 
-    AuctionHouseSellGUI gui;
-    public ConfirmItem(AuctionHouseSellGUI gui) {
+    GUI gui;
+    public ConfirmItem(GUI gui) {
         this.gui = gui;
     }
 
@@ -25,6 +26,6 @@ public class ConfirmItem extends AbstractItem {
 
     @Override
     public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent inventoryClickEvent) {
-        gui.confirmSell();
+        gui.onConfirm();
     }
 }

@@ -1,6 +1,7 @@
 package com.lilylindstrand.auctionhouse.item;
 
 import com.lilylindstrand.auctionhouse.gui.AuctionHouseSellGUI;
+import com.lilylindstrand.auctionhouse.gui.GUI;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -13,8 +14,8 @@ import xyz.xenondevs.invui.item.impl.AbstractItem;
 
 public class CancelItem extends AbstractItem {
 
-    AuctionHouseSellGUI gui;
-    public CancelItem(AuctionHouseSellGUI gui) {
+    GUI gui;
+    public CancelItem(GUI gui) {
         this.gui = gui;
     }
 
@@ -25,6 +26,6 @@ public class CancelItem extends AbstractItem {
 
     @Override
     public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent inventoryClickEvent) {
-        gui.cancel();
+        gui.closeGUI();
     }
 }
