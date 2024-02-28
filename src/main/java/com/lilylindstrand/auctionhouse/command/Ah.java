@@ -25,6 +25,7 @@ public class Ah extends Command {
             AuctionHouseGUI auctionHouseGUI = new AuctionHouseGUI(player);
             auctionHouseGUI.createGui();
         } else if (args.length == 1 && args[0].equals("sell")) {
+            // Ensure player is holding an item before attempting to sell it
             if (player.getInventory().getItemInMainHand().getType() == Material.AIR) {
                 player.sendMessage(ChatColor.RED + "You are not holding an item!");
                 return;
