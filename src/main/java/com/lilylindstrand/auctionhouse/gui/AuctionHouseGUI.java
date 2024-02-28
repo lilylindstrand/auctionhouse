@@ -76,7 +76,7 @@ public class AuctionHouseGUI {
                         "#.......#",
                         "#.......#",
                         "#########")
-                .addIngredient('#', new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE)))
+                .addIngredient('#', new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE).setDisplayName("")))
                 .addIngredient('.', new SuppliedItem(supplier, null))
                 .build();
 
