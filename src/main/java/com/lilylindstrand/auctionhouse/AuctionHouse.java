@@ -39,4 +39,8 @@ public final class AuctionHouse extends JavaPlugin {
         economy = registeredServiceProvider.getProvider();
         return economy != null;
     }
+
+    public static Economy getEconomy() {
+        return economy;
+    }
 }

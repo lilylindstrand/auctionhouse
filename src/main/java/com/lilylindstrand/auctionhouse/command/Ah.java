@@ -1,8 +1,10 @@
 package com.lilylindstrand.auctionhouse.command;
 
+import com.lilylindstrand.auctionhouse.AuctionHouse;
 import com.lilylindstrand.auctionhouse.abstracted.Command;
 import com.lilylindstrand.auctionhouse.gui.AuctionHouseGUI;
 import com.lilylindstrand.auctionhouse.gui.AuctionHouseSellGUI;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -23,7 +25,9 @@ public class Ah extends Command {
         if (args.length == 0) {
             AuctionHouseGUI auctionHouseGUI = new AuctionHouseGUI(player);
             auctionHouseGUI.createGui();
-        } else if (args.length == 1 && args[0].equals("sell")) {
+        }
+
+        else if (args.length == 1 && args[0].equals("sell")) {
             // Ensure player is holding an item before attempting to sell it
             if (player.getInventory().getItemInMainHand().getType() == Material.AIR) {
                 player.sendMessage(ChatColor.RED + "You are not holding an item!");
@@ -31,7 +35,9 @@ public class Ah extends Command {
             }
             AuctionHouseSellGUI auctionHouseSellGUI = new AuctionHouseSellGUI(player);
             auctionHouseSellGUI.createGui();
-        } else {
+        }
+
+        else {
             player.sendMessage(ChatColor.RED + "Invalid arguments!");
         }
 
