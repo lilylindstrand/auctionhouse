@@ -22,7 +22,7 @@ public class AuctionHouseSellGUI {
                         "#...x...#",
                         "#########")
                 .addIngredient('#', new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE)))
-                .addIngredient('x', new SimpleItem(new ItemBuilder(Material.IRON_SHOVEL))) // TODO: Replace Placeholder
+                .addIngredient('x', new SimpleItem(player.getInventory().getItemInMainHand())) // TODO: Replace Placeholder
                 .build();
 
         Window window = Window.single()
