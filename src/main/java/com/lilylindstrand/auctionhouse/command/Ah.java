@@ -28,7 +28,7 @@ public class Ah extends Command {
         if (!(sender instanceof Player player)) { return; }
 
         if (args.length == 0) {
-            AuctionHouseGUI auctionHouseGUI = new AuctionHouseGUI(player);
+            AuctionHouseGUI auctionHouseGUI = new AuctionHouseGUI(player, db);
             auctionHouseGUI.createGui();
         }
 
