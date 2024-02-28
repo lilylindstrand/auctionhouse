@@ -24,7 +24,7 @@ public class AuctionHouseGUI {
                         "#.......#",
                         "#.......#",
                         "#########")
-                .addIngredient('#', new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS)))
+                .addIngredient('#', new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE)))
                 .build();
 
         Window window = Window.single()
