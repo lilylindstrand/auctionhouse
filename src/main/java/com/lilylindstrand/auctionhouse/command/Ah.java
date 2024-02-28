@@ -7,9 +7,9 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class AuctionHouse extends Command {
+public class Ah extends Command {
 
-    public AuctionHouse(String command, String permission, String[] aliases, String description) {
+    public Ah(String command, String permission, String[] aliases, String description) {
         super(command, permission, aliases, description);
     }
 
