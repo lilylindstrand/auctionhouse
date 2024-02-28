@@ -60,12 +60,17 @@ public class AuctionHouseGUI extends GUI{
 
                 // Get time until expiry
                 Date uploadDate = db.getItemDate(ItemSerializer.encode(items.get(index)));
-                LocalDateTime uploadDateTime = uploadDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+                Date newDate = new Date(uploadDate.getTime());
+
+                LocalDateTime uploadDateTime = newDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
                 LocalDateTime currentDateTime = LocalDateTime.now();
-                Duration duration = Duration.between(currentDateTime, uploadDateTime);
+                Duration duration = Duration.between(currentDateTime, uploadDateTime.plusHours(24));
                 long minutes = duration.toMinutes();
                 long hours = minutes / 60;
                 minutes -= (hours * 60);
+                String time;
+                if (hours >= 1) { time = hours + " hours, " + minutes + " minutes"; }
+                else { time = minutes + " minutes"; }
 
                 // Modify item for GUI
                 ItemStack tempItem = items.get(index);
@@ -75,7 +80,7 @@ public class AuctionHouseGUI extends GUI{
                 else { lore = new ArrayList<>(); }
                 lore.add(lore.size(), ChatColor.translateAlternateColorCodes('&', "&7Price: &6" + price));
                 lore.add(lore.size(), ChatColor.translateAlternateColorCodes('&', "&7Sold by: &a" + seller.getDisplayName()));
-                lore.add(lore.size(), ChatColor.translateAlternateColorCodes('&', "&7Expires in: &a" + hours + " hours, " + minutes + " minutes."));
+                lore.add(lore.size(), ChatColor.translateAlternateColorCodes('&', "&7Expires in: &a" + time));
                 tempItemItemMeta.setLore(lore);
                 tempItem.setItemMeta(tempItemItemMeta);
 

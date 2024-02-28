@@ -111,7 +111,7 @@ public class DatabaseManager {
         return null;
     }
 
-    public Date getItemDate(String base64Item) {
+    public Timestamp getItemDate(String base64Item) {
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT upload_date FROM auctionhouse WHERE item = ?"
@@ -119,7 +119,7 @@ public class DatabaseManager {
             statement.setString(1, base64Item);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                return resultSet.getDate("upload_date");
+                return resultSet.getTimestamp("upload_date");
             }
         }
         catch (SQLException e) { throw new RuntimeException(e); }
