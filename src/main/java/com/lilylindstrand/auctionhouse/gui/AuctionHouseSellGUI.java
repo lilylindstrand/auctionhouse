@@ -10,6 +10,9 @@ import xyz.xenondevs.invui.item.builder.ItemBuilder;
 import xyz.xenondevs.invui.item.impl.SimpleItem;
 import xyz.xenondevs.invui.window.Window;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AuctionHouseSellGUI {
 
     Player player;
@@ -22,13 +25,22 @@ public class AuctionHouseSellGUI {
 
     public void createGui() {
 
+        /* SELL ITEM */
         ItemStack sellItem = new ItemStack(player.getInventory().getItemInMainHand());
         ItemMeta sellItemMeta = sellItem.getItemMeta();
-        // Yes, this is Null-Safe despite the IDE's complaints. It is only null if the Material is Air.
-        // AuctionHouse.java confirms it is not Air before running this method.
-        sellItemMeta.getLore().add(0, ChatColor.translateAlternateColorCodes('&', "&7Sell Price: &6") + price);
+
+        // Create item lore if it doesn't have any, modify existing lore if it has lore
+        List<String> sellItemLore;
+        if (sellItemMeta.hasLore()) {
+            sellItemLore = sellItemMeta.getLore();
+        } else {
+            sellItemLore = new ArrayList<>();
+        }
+        sellItemLore.add(0, ChatColor.translateAlternateColorCodes('&', "&7Sell Price: &6") + price);
+        sellItemMeta.setLore(sellItemLore);
         sellItem.setItemMeta(sellItemMeta);
 
+        /* GUI */
         Gui gui = Gui.normal()
                 .setStructure(
                         "#########",
