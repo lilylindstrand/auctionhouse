@@ -4,6 +4,7 @@ import com.lilylindstrand.auctionhouse.AuctionHouse;
 import com.lilylindstrand.auctionhouse.abstracted.Command;
 import com.lilylindstrand.auctionhouse.gui.AuctionHouseGUI;
 import com.lilylindstrand.auctionhouse.gui.AuctionHouseSellGUI;
+import com.lilylindstrand.auctionhouse.manager.DatabaseManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -15,9 +16,11 @@ import java.util.List;
 public class Ah extends Command {
 
     int price;
+    DatabaseManager db;
 
-    public Ah(String command, String permission, String[] aliases, String description) {
+    public Ah(String command, String permission, String[] aliases, String description, DatabaseManager db) {
         super(command, permission, aliases, description);
+        this.db = db;
     }
 
     @Override
@@ -44,7 +47,7 @@ public class Ah extends Command {
                 return;
             }
 
-            AuctionHouseSellGUI auctionHouseSellGUI = new AuctionHouseSellGUI(player, price);
+            AuctionHouseSellGUI auctionHouseSellGUI = new AuctionHouseSellGUI(player, price, db);
             auctionHouseSellGUI.createGui();
         }
 

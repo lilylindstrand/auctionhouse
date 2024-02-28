@@ -40,7 +40,7 @@ public final class AuctionHouse extends JavaPlugin {
     }
 
     public void registerCommands() {
-        new Ah("ah", "auctionhouse.use", new String[]{"auctionhouse", "auction"}, "");
+        new Ah("ah", "auctionhouse.use", new String[]{"auctionhouse", "auction"}, "", databaseManager);
     }
 
     public boolean setupEconomy() {
