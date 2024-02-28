@@ -1,0 +1,4 @@
+name: AuctionHouse
+version: '${project.version}'
+main: com.lilylindstrand.auctionhouse.AuctionHouse
+api-version: 1.20
