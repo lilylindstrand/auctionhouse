@@ -25,13 +25,14 @@ public final class AuctionHouse extends JavaPlugin {
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
-        registerCommands();
         configManager = new ConfigManager(this);
         try { configManager.setupConfig(); }
         catch (IOException | InvalidConfigurationException e) { throw new RuntimeException(e); }
 
         databaseManager = new DatabaseManager();
         databaseManager.connect();
+
+        registerCommands();
     }
 
     @Override
