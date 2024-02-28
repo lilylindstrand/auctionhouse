@@ -1,11 +1,15 @@
 package com.lilylindstrand.auctionhouse.gui;
 
 import com.lilylindstrand.auctionhouse.AuctionHouse;
+import com.lilylindstrand.auctionhouse.ItemSerializer;
 import com.lilylindstrand.auctionhouse.manager.DatabaseManager;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.ItemWrapper;
@@ -14,7 +18,9 @@ import xyz.xenondevs.invui.item.impl.SimpleItem;
 import xyz.xenondevs.invui.item.impl.SuppliedItem;
 import xyz.xenondevs.invui.window.Window;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Supplier;
 
 public class AuctionHouseGUI {
@@ -36,10 +42,27 @@ public class AuctionHouseGUI {
         Supplier<? extends ItemProvider> supplier = new Supplier<ItemProvider>() {
             @Override
             public ItemProvider get() {
+                // GUI needs to process 28 items per page. If there are less than 28 items, return air for the rest.
                 if (index >= items.size()) {
                     return new SimpleItem(new ItemBuilder(Material.AIR)).getItemProvider();
                 }
+
+                // Get Item Data
+                int price = db.getItemPrice(ItemSerializer.encode(items.get(index)));
+                UUID sellerUUID = db.getItemSeller(ItemSerializer.encode(items.get(index)));
+                Player seller = Bukkit.getPlayer(sellerUUID);
+
+                // Modify item for GUI
                 ItemStack tempItem = items.get(index);
+                ItemMeta tempItemItemMeta = tempItem.getItemMeta();
+                List<String> lore;
+                if (tempItemItemMeta.hasLore()) { lore = tempItemItemMeta.getLore(); }
+                else { lore = new ArrayList<>(); }
+                lore.add(lore.size(), ChatColor.translateAlternateColorCodes('&', "&7Price: &6" + price));
+                lore.add(lore.size(), ChatColor.translateAlternateColorCodes('&', "&7Sold by: &a" + seller.getDisplayName()));
+                tempItemItemMeta.setLore(lore);
+                tempItem.setItemMeta(tempItemItemMeta);
+
                 index++;
                 return new ItemWrapper(tempItem);
             }
