@@ -20,8 +20,7 @@ public class DatabaseManager {
 
     /* Methods */
     public void connect() {
-        System.out.println(HOST);
-        try { connection = DriverManager.getConnection("jdbc:mysql://" + HOST + ":" + PORT + "/" + DATABASE + "?useSSL=false", USERNAME, PASSWORD); }
+        try { connection = DriverManager.getConnection("jdbc:mysql://" + HOST + ":" + PORT + "/" + DATABASE, USERNAME, PASSWORD); }
         catch (SQLException e) { e.printStackTrace(); }
         setupDatabase();
     }

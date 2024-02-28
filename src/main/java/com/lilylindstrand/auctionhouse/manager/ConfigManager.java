@@ -48,8 +48,8 @@ public class ConfigManager {
         dbHost = dbConfiguration.getString("host");
         dbPort = dbConfiguration.getInt("port");
         dbDatabase = dbConfiguration.getString("database");
-        dbUsername = dbConfiguration.getString("database");
-        dbPassword = dbConfiguration.getString("database");
+        dbUsername = dbConfiguration.getString("username");
+        dbPassword = dbConfiguration.getString("password");
     }
 
     /* Getters */
