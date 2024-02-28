@@ -4,8 +4,10 @@ import com.lilylindstrand.auctionhouse.abstracted.Command;
 import com.lilylindstrand.auctionhouse.gui.AuctionHouseGUI;
 import com.lilylindstrand.auctionhouse.gui.AuctionHouseSellGUI;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
@@ -23,6 +25,11 @@ public class Ah extends Command {
             AuctionHouseGUI auctionHouseGUI = new AuctionHouseGUI(player);
             auctionHouseGUI.createGui();
         } else if (args.length == 1 && args[0].equals("sell")) {
+
+            if (player.getInventory().getItemInMainHand().getType() == Material.AIR) {
+                player.sendMessage(ChatColor.RED + "You are not holding an item!");
+            }
+
             AuctionHouseSellGUI auctionHouseSellGUI = new AuctionHouseSellGUI(player);
             auctionHouseSellGUI.createGui();
         } else {
