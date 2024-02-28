@@ -25,8 +25,8 @@ public final class AuctionHouse extends JavaPlugin {
         }
         registerCommands();
         configManager = new ConfigManager(this);
-        try { configManager.setupConfig();
-        } catch (IOException | InvalidConfigurationException e) { throw new RuntimeException(e); }
+        try { configManager.setupConfig(); }
+        catch (IOException | InvalidConfigurationException e) { throw new RuntimeException(e); }
 
     }
 
