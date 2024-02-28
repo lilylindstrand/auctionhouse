@@ -40,7 +40,7 @@ public class DatabaseManager {
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "CREATE TABLE IF NOT EXISTS auctionhouse (" +
-                            "item VARCHAR(255) PRIMARY KEY," +
+                            "item VARCHAR(750) PRIMARY KEY," +
                             "selleruuid CHAR(36)," +
                             "price INT," +
                             "upload_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
