@@ -1,15 +1,20 @@
 package com.lilylindstrand.auctionhouse;
 
 import com.lilylindstrand.auctionhouse.command.Ah;
+import com.lilylindstrand.auctionhouse.manager.ConfigManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.IOException;
 
 public final class AuctionHouse extends JavaPlugin {
 
     private static Economy economy = null;
+    private ConfigManager configManager;
 
     @Override
     public void onEnable() {
@@ -19,6 +24,10 @@ public final class AuctionHouse extends JavaPlugin {
             return;
         }
         registerCommands();
+        configManager = new ConfigManager(this);
+        try { configManager.setupConfig();
+        } catch (IOException | InvalidConfigurationException e) { throw new RuntimeException(e); }
+
     }
 
     @Override
