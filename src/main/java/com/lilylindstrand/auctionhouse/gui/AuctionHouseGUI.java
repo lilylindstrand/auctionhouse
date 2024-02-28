@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.item.Click;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.ItemWrapper;
 import xyz.xenondevs.invui.item.builder.ItemBuilder;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class AuctionHouseGUI extends GUI{
@@ -89,6 +91,15 @@ public class AuctionHouseGUI extends GUI{
             }
         };
 
+        /* Function for buying items */
+        Function<Click, Boolean> function = new Function<Click, Boolean>() {
+            @Override
+            public Boolean apply(Click click) {
+                System.out.println("test");
+                return false;
+            }
+        };
+
         Gui gui = Gui.normal()
                 .setStructure(
                         "#########",
@@ -98,7 +109,7 @@ public class AuctionHouseGUI extends GUI{
                         "#.......#",
                         "####X####")
                 .addIngredient('#', new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE).setDisplayName("")))
-                .addIngredient('.', new SuppliedItem(supplier, null))
+                .addIngredient('.', new SuppliedItem(supplier, function))
                 .addIngredient('X', new CancelItem(this))
                 .build();
 
