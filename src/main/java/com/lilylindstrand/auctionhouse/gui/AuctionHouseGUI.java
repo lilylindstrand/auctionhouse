@@ -19,7 +19,11 @@ import xyz.xenondevs.invui.item.impl.SimpleItem;
 import xyz.xenondevs.invui.item.impl.SuppliedItem;
 import xyz.xenondevs.invui.window.Window;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Supplier;
@@ -54,6 +58,15 @@ public class AuctionHouseGUI extends GUI{
                 UUID sellerUUID = db.getItemSeller(ItemSerializer.encode(items.get(index)));
                 Player seller = Bukkit.getPlayer(sellerUUID);
 
+                // Get time until expiry
+                Date uploadDate = db.getItemDate(ItemSerializer.encode(items.get(index)));
+                LocalDateTime uploadDateTime = uploadDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+                LocalDateTime currentDateTime = LocalDateTime.now();
+                Duration duration = Duration.between(currentDateTime, uploadDateTime);
+                long minutes = duration.toMinutes();
+                long hours = minutes / 60;
+                minutes -= (hours * 60);
+
                 // Modify item for GUI
                 ItemStack tempItem = items.get(index);
                 ItemMeta tempItemItemMeta = tempItem.getItemMeta();
@@ -62,6 +75,7 @@ public class AuctionHouseGUI extends GUI{
                 else { lore = new ArrayList<>(); }
                 lore.add(lore.size(), ChatColor.translateAlternateColorCodes('&', "&7Price: &6" + price));
                 lore.add(lore.size(), ChatColor.translateAlternateColorCodes('&', "&7Sold by: &a" + seller.getDisplayName()));
+                lore.add(lore.size(), ChatColor.translateAlternateColorCodes('&', "&7Expires in: &a" + hours + " hours, " + minutes + " minutes."));
                 tempItemItemMeta.setLore(lore);
                 tempItem.setItemMeta(tempItemItemMeta);
 
