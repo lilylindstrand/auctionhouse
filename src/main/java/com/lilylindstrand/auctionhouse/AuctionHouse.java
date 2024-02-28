@@ -2,6 +2,7 @@ package com.lilylindstrand.auctionhouse;
 
 import com.lilylindstrand.auctionhouse.command.Ah;
 import com.lilylindstrand.auctionhouse.manager.ConfigManager;
+import com.lilylindstrand.auctionhouse.manager.DatabaseManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -15,6 +16,7 @@ public final class AuctionHouse extends JavaPlugin {
 
     private static Economy economy = null;
     private ConfigManager configManager;
+    DatabaseManager databaseManager;
 
     @Override
     public void onEnable() {
@@ -28,11 +30,13 @@ public final class AuctionHouse extends JavaPlugin {
         try { configManager.setupConfig(); }
         catch (IOException | InvalidConfigurationException e) { throw new RuntimeException(e); }
 
+        databaseManager = new DatabaseManager();
+        databaseManager.connect();
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        databaseManager.disconnect();
     }
 
     public void registerCommands() {

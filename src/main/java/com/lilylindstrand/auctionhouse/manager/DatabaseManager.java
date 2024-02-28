@@ -14,8 +14,9 @@ public class DatabaseManager {
 
     private Connection connection;
 
-    public void connect() throws SQLException {
-        connection = DriverManager.getConnection("jdbc:mysql://" + HOST + ":" + PORT + "/" + DATABASE + "?useSSL=false", USERNAME, PASSWORD);
+    public void connect() {
+        try { connection = DriverManager.getConnection("jdbc:mysql://" + HOST + ":" + PORT + "/" + DATABASE + "?useSSL=false", USERNAME, PASSWORD); }
+        catch (SQLException e) { e.printStackTrace(); }
     }
 
     public void disconnect() {
