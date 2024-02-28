@@ -31,5 +31,26 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.joml:joml:1.10.5" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.md-5:bungeecord-chat:1.20-R0.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.yaml:snakeyaml:2.2" level="project" />
+    <orderEntry type="library" name="Maven: xyz.xenondevs.invui:invui-core:1.25" level="project" />
+    <orderEntry type="library" name="Maven: xyz.xenondevs.invui:inventory-access:1.25" level="project" />
+    <orderEntry type="library" name="Maven: xyz.xenondevs.invui:inventory-access-r1:1.25" level="project" />
+    <orderEntry type="library" name="Maven: xyz.xenondevs.invui:inventory-access-r2:1.25" level="project" />
+    <orderEntry type="library" name="Maven: xyz.xenondevs.invui:inventory-access-r3:1.25" level="project" />
+    <orderEntry type="library" name="Maven: xyz.xenondevs.invui:inventory-access-r4:1.25" level="project" />
+    <orderEntry type="library" name="Maven: xyz.xenondevs.invui:inventory-access-r5:1.25" level="project" />
+    <orderEntry type="library" name="Maven: xyz.xenondevs.invui:inventory-access-r6:1.25" level="project" />
+    <orderEntry type="library" name="Maven: xyz.xenondevs.invui:inventory-access-r7:1.25" level="project" />
+    <orderEntry type="library" name="Maven: xyz.xenondevs.invui:inventory-access-r8:1.25" level="project" />
+    <orderEntry type="library" name="Maven: xyz.xenondevs.invui:inventory-access-r9:1.25" level="project" />
+    <orderEntry type="library" name="Maven: xyz.xenondevs.invui:inventory-access-r10:1.25" level="project" />
+    <orderEntry type="library" name="Maven: xyz.xenondevs.invui:inventory-access-r11:1.25" level="project" />
+    <orderEntry type="library" name="Maven: xyz.xenondevs.invui:inventory-access-r12:1.25" level="project" />
+    <orderEntry type="library" name="Maven: xyz.xenondevs.invui:inventory-access-r13:1.25" level="project" />
+    <orderEntry type="library" name="Maven: xyz.xenondevs.invui:inventory-access-r14:1.25" level="project" />
+    <orderEntry type="library" name="Maven: xyz.xenondevs.invui:inventory-access-r15:1.25" level="project" />
+    <orderEntry type="library" name="Maven: xyz.xenondevs.invui:inventory-access-r16:1.25" level="project" />
+    <orderEntry type="library" name="Maven: xyz.xenondevs.invui:inventory-access-r17:1.25" level="project" />
+    <orderEntry type="library" name="Maven: xyz.xenondevs.invui:inventory-access-r18:1.25" level="project" />
+    <orderEntry type="library" name="Maven: org.jetbrains:annotations:24.0.0" level="project" />
   </component>
 </module>

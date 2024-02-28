@@ -1,6 +1,7 @@
 package com.lilylindstrand.auctionhouse.command;
 
 import com.lilylindstrand.auctionhouse.abstracted.Command;
+import com.lilylindstrand.auctionhouse.gui.AuctionHouseGUI;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -15,9 +16,8 @@ public class AuctionHouse extends Command {
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (!(sender instanceof Player player)) { return; }
-
-
-
+        AuctionHouseGUI auctionHouseGUI = new AuctionHouseGUI(player);
+        auctionHouseGUI.createGui();
     }
 
     @Override
