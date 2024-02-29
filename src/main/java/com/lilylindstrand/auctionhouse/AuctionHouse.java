@@ -19,6 +19,8 @@ public final class AuctionHouse extends JavaPlugin {
     private ConfigManager configManager;
     DatabaseManager databaseManager;
     NamespacedKey itemId = new NamespacedKey(this, "itemId");
+    NamespacedKey soldItemKey = new NamespacedKey(this, "soldItem");
+    NamespacedKey expiredItemKey = new NamespacedKey(this, "expiredItem");
 
     @Override
     public void onEnable() {
@@ -63,4 +65,6 @@ public final class AuctionHouse extends JavaPlugin {
     public NamespacedKey getKey() {
         return itemId;
     }
+    public NamespacedKey getSoldItemKey() { return soldItemKey; }
+    public NamespacedKey getExpiredItemKey() { return expiredItemKey; }
 }

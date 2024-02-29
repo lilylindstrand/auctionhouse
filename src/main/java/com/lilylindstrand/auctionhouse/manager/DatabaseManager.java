@@ -117,6 +117,17 @@ public class DatabaseManager {
         catch (SQLException e) { throw new RuntimeException(e); }
     }
 
+    public void deleteRemovedItem(String base64Item) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "DELETE FROM removeditems WHERE item = ?"
+            );
+            statement.setString(1, base64Item);
+            statement.executeUpdate();
+        }
+        catch (SQLException e) { throw new RuntimeException(e); }
+    }
+
     /* Getters */
     public List<ItemStack> getAllItems() {
         List<ItemStack> itemStacks = new ArrayList<>();
