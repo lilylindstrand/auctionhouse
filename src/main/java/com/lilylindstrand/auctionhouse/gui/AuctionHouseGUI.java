@@ -23,10 +23,7 @@ import xyz.xenondevs.invui.window.Window;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -36,6 +33,7 @@ public class AuctionHouseGUI extends GUI{
     DatabaseManager db;
     List<ItemStack> items;
     List<ItemStack> removedItems;
+    HashMap<Integer, UUID> removedItemsHashMap = new HashMap<>();
     int removedIndex = 0;
     int index = 0;
     Window window;
@@ -56,15 +54,11 @@ public class AuctionHouseGUI extends GUI{
         Supplier<? extends ItemProvider> supplier = new Supplier<ItemProvider>() {
             @Override
             public ItemProvider get() {
-                if (removedIndex != (removedItems.size())) {
+                if (removedIndex != removedItems.size()) {
                     ItemProvider isProvider = createSoldItem();
-                    ItemStack is = isProvider.get();
-                    ItemMeta isMeta = is.getItemMeta();
-                    PersistentDataContainer persistentDataContainer = isMeta.getPersistentDataContainer();
-                    NamespacedKey itemIdKey = plugin.getKey();
-                    int id = persistentDataContainer.get(itemIdKey, PersistentDataType.INTEGER);
 
-                    if (db.getRemovedItemSeller(ItemSerializer.encode(removedItems.get(id))) == player.getUniqueId()) {
+                    if (removedItemsHashMap.get(removedIndex - 1).toString().equals(player.getUniqueId().toString())) {
+                        System.out.println("Woop!");
                         return isProvider;
                     }
                 }
@@ -133,8 +127,8 @@ public class AuctionHouseGUI extends GUI{
 
     public ItemProvider createSoldItem() {
         // Get Item Data
-        int price = db.getItemPrice(ItemSerializer.encode(removedItems.get(removedIndex)));
-        UUID sellerUUID = db.getItemSeller(ItemSerializer.encode(removedItems.get(removedIndex)));
+        int price = db.getSoldItemPrice(ItemSerializer.encode(removedItems.get(removedIndex)));
+        UUID sellerUUID = db.getRemovedItemSeller(ItemSerializer.encode(removedItems.get(removedIndex)));
 
         // Modify item for GUI
         ItemStack tempItem = removedItems.get(removedIndex);
@@ -156,6 +150,7 @@ public class AuctionHouseGUI extends GUI{
 
 
         tempItem.setItemMeta(tempItemItemMeta);
+        removedItemsHashMap.put(removedIndex, sellerUUID);
         removedIndex++;
         return new ItemWrapper(tempItem);
     }

@@ -72,9 +72,6 @@ public class AuctionHouseBuyGUI extends GUI {
 
     @Override
     public void onConfirm() {
-        // todo: remove item from auction house
-        // todo: pay seller
-
         Economy economy = AuctionHouse.getEconomy();
         int price = db.getItemPrice(ItemSerializer.encode(originalItem));
 
