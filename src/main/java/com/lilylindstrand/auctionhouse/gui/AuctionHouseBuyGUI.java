@@ -19,8 +19,6 @@ import xyz.xenondevs.invui.item.builder.ItemBuilder;
 import xyz.xenondevs.invui.item.impl.SimpleItem;
 import xyz.xenondevs.invui.window.Window;
 
-import java.util.ArrayList;
-
 public class AuctionHouseBuyGUI extends GUI {
 
     ItemStack displayItem;

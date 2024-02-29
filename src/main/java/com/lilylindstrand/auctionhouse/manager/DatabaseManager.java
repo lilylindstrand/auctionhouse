@@ -48,11 +48,25 @@ public class DatabaseManager {
                             ")"
             );
             statement.executeUpdate();
+
+            // Second table, for items that should not be listed on the Auction House (Expired/Sold), but canot yet be deleted)
+            PreparedStatement statement2 = connection.prepareStatement(
+                    "CREATE TABLE IF NOT EXISTS removeditems (" +
+                            "item VARCHAR(750) PRIMARY KEY," +
+                            "selleruuid CHAR(36)," +
+                            "price INT," +
+                            "sold BOOLEAN," +
+                            "expired BOOLEAN," +
+                            ")"
+            );
+            statement2.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        catch (SQLException e) { throw new RuntimeException(e); }
     }
 
-    /* Getters & Setters */
+    /* Setters */
     public void listItem(String base64Item, UUID sellerUUID, int price) {
         try {
             PreparedStatement statement = connection.prepareStatement(
@@ -67,6 +81,42 @@ public class DatabaseManager {
         catch (SQLException e) { throw new RuntimeException(e); }
     }
 
+    public void sellItem(String base64Item, UUID sellerUUID, int price) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "INSERT INTO removeditems (item, selleruuid, price, sold, expired) VALUES (?, ?, ?, ?, ?)"
+            );
+            statement.setString(1, base64Item);
+            statement.setString(2, sellerUUID.toString());
+            statement.setInt(3, price);
+            statement.setBoolean(4, true);
+            statement.setBoolean(5, false);
+            statement.executeUpdate();
+
+            PreparedStatement statement2 = connection.prepareStatement(
+                    "DELETE FROM auctionhouse WHERE item = ?"
+            );
+            statement2.executeUpdate();
+        }
+        catch (SQLException e) { throw new RuntimeException(e); }
+    }
+
+    public void expireItem(String base64Item, UUID sellerUUID) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "INSERT INTO removeditems (item, selleruuid, price, sold, expired) VALUES (?, ?, ?, ?, ?)"
+            );
+            statement.setString(1, base64Item);
+            statement.setString(2, sellerUUID.toString());
+            statement.setInt(3, 0);
+            statement.setBoolean(4, false);
+            statement.setBoolean(5, true);
+            statement.executeUpdate();
+        }
+        catch (SQLException e) { throw new RuntimeException(e); }
+    }
+
+    /* Getters */
     public List<ItemStack> getAllItems() {
         List<ItemStack> itemStacks = new ArrayList<>();
         try {
@@ -121,6 +171,81 @@ public class DatabaseManager {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getTimestamp("upload_date");
+            }
+        }
+        catch (SQLException e) { throw new RuntimeException(e); }
+        return null;
+    }
+
+    public List<ItemStack> getAllRemovedItems() {
+        List<ItemStack> itemStacks = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT item FROM removeditems"
+            );
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                itemStacks.add(ItemSerializer.decode(resultSet.getString("item")));
+            }
+            return itemStacks;
+        }
+        catch (SQLException e) { throw new RuntimeException(e); }
+    }
+
+    public int getSoldItemPrice(String base64Item) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT price FROM removeditems WHERE item = ?"
+            );
+            statement.setString(1, base64Item);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("price");
+            }
+        }
+        catch (SQLException e) { throw new RuntimeException(e); }
+        return 0;
+    }
+
+    public boolean isSold(String base64Item) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT sold FROM removeditems WHERE item = ?"
+            );
+            statement.setString(1, base64Item);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getBoolean("sold");
+            }
+        }
+        catch (SQLException e) { throw new RuntimeException(e); }
+        return false;
+    }
+
+    public boolean isExpired(String base64Item) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT expired FROM removeditems WHERE item = ?"
+            );
+            statement.setString(1, base64Item);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getBoolean("expired");
+            }
+        }
+        catch (SQLException e) { throw new RuntimeException(e); }
+        return false;
+    }
+
+    public UUID getRemovedItemSeller(String base64Item) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT selleruuid FROM removeditems WHERE item = ?"
+            );
+            statement.setString(1, base64Item);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return UUID.fromString(resultSet.getString("selleruuid"));
             }
         }
         catch (SQLException e) { throw new RuntimeException(e); }
