@@ -76,5 +76,6 @@ public class AuctionHouseBuyGUI extends GUI {
         // todo: pay seller
         player.sendMessage(ChatColor.GREEN + "You bought the item!");
         player.getInventory().addItem(originalItem);
+        window.close();
     }
 }
