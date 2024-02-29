@@ -56,7 +56,7 @@ public class DatabaseManager {
                             "selleruuid CHAR(36)," +
                             "price INT," +
                             "sold BOOLEAN," +
-                            "expired BOOLEAN," +
+                            "expired BOOLEAN" +
                             ")"
             );
             statement2.executeUpdate();
@@ -96,6 +96,7 @@ public class DatabaseManager {
             PreparedStatement statement2 = connection.prepareStatement(
                     "DELETE FROM auctionhouse WHERE item = ?"
             );
+            statement2.setString(1, base64Item);
             statement2.executeUpdate();
         }
         catch (SQLException e) { throw new RuntimeException(e); }

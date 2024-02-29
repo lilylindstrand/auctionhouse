@@ -82,6 +82,7 @@ public class AuctionHouseBuyGUI extends GUI {
             player.sendMessage(ChatColor.GREEN + "You bought the item!");
             player.getInventory().addItem(originalItem);
             economy.withdrawPlayer(player, price);
+            db.sellItem(ItemSerializer.encode(originalItem), player.getUniqueId(), price);
         } else {
             player.sendMessage(ChatColor.RED + "You cannot afford this item!");
         }
