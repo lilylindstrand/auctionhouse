@@ -36,6 +36,7 @@ public class DatabaseManager {
         return connection != null;
     }
 
+    //TODO: Add a "isBought" boolean, maybe add an id int
     public void setupDatabase() {
         try {
             PreparedStatement statement = connection.prepareStatement(

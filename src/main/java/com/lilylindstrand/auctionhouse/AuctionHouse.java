@@ -6,6 +6,7 @@ import com.lilylindstrand.auctionhouse.manager.DatabaseManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -17,6 +18,7 @@ public final class AuctionHouse extends JavaPlugin {
     private static Economy economy = null;
     private ConfigManager configManager;
     DatabaseManager databaseManager;
+    NamespacedKey itemId = new NamespacedKey(this, "itemId");
 
     @Override
     public void onEnable() {
@@ -41,7 +43,7 @@ public final class AuctionHouse extends JavaPlugin {
     }
 
     public void registerCommands() {
-        new Ah("ah", "auctionhouse.use", new String[]{"auctionhouse", "auction"}, "", databaseManager);
+        new Ah("ah", "auctionhouse.use", new String[]{"auctionhouse", "auction"}, "", databaseManager, this);
     }
 
     public boolean setupEconomy() {
@@ -56,5 +58,9 @@ public final class AuctionHouse extends JavaPlugin {
 
     public static Economy getEconomy() {
         return economy;
+    }
+
+    public NamespacedKey getKey() {
+        return itemId;
     }
 }

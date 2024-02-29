@@ -17,9 +17,11 @@ public class Ah extends Command {
 
     int price;
     DatabaseManager db;
+    AuctionHouse plugin;
 
-    public Ah(String command, String permission, String[] aliases, String description, DatabaseManager db) {
+    public Ah(String command, String permission, String[] aliases, String description, DatabaseManager db, AuctionHouse plugin) {
         super(command, permission, aliases, description);
+        this.plugin = plugin;
         this.db = db;
     }
 
@@ -28,7 +30,7 @@ public class Ah extends Command {
         if (!(sender instanceof Player player)) { return; }
 
         if (args.length == 0) {
-            AuctionHouseGUI auctionHouseGUI = new AuctionHouseGUI(player, db);
+            AuctionHouseGUI auctionHouseGUI = new AuctionHouseGUI(player, db, plugin);
             auctionHouseGUI.createGui();
         }
 

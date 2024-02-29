@@ -7,10 +7,13 @@ import com.lilylindstrand.auctionhouse.manager.DatabaseManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.item.Click;
 import xyz.xenondevs.invui.item.ItemProvider;
@@ -37,10 +40,12 @@ public class AuctionHouseGUI extends GUI{
     List<ItemStack> items;
     int index = 0;
     Window window;
+    AuctionHouse plugin;
 
-    public AuctionHouseGUI(Player player, DatabaseManager db) {
+    public AuctionHouseGUI(Player player, DatabaseManager db, AuctionHouse plugin) {
         this.player = player;
         this.db = db;
+        this.plugin = plugin;
     }
 
     public void createGui() {
@@ -84,8 +89,13 @@ public class AuctionHouseGUI extends GUI{
                 lore.add(lore.size(), ChatColor.translateAlternateColorCodes('&', "&7Sold by: &a" + seller.getDisplayName()));
                 lore.add(lore.size(), ChatColor.translateAlternateColorCodes('&', "&7Expires in: &a" + time));
                 tempItemItemMeta.setLore(lore);
-                tempItem.setItemMeta(tempItemItemMeta);
 
+                // Set items PDC, so that the Buy GUI can obtain the original item later (Value = current index)
+                PersistentDataContainer persistentDataContainer = tempItemItemMeta.getPersistentDataContainer();
+                NamespacedKey itemId = plugin.getKey();
+                persistentDataContainer.set(itemId, PersistentDataType.INTEGER, index);
+
+                tempItem.setItemMeta(tempItemItemMeta);
                 index++;
                 return new ItemWrapper(tempItem);
             }
@@ -95,8 +105,11 @@ public class AuctionHouseGUI extends GUI{
         Function<Click, Boolean> function = new Function<Click, Boolean>() {
             @Override
             public Boolean apply(Click click) {
-                System.out.println("test");
-                return false;
+
+
+                AuctionHouseBuyGUI buyGUI = new AuctionHouseBuyGUI(db, click.getEvent().getCurrentItem(), player, plugin);
+                buyGUI.createGui();
+                return true;
             }
         };
 
