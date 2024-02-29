@@ -1,9 +1,11 @@
 package com.lilylindstrand.auctionhouse.gui;
 
 import com.lilylindstrand.auctionhouse.AuctionHouse;
+import com.lilylindstrand.auctionhouse.ItemSerializer;
 import com.lilylindstrand.auctionhouse.item.CancelItem;
 import com.lilylindstrand.auctionhouse.item.ConfirmItem;
 import com.lilylindstrand.auctionhouse.manager.DatabaseManager;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -74,8 +76,17 @@ public class AuctionHouseBuyGUI extends GUI {
     public void onConfirm() {
         // todo: remove item from auction house
         // todo: pay seller
-        player.sendMessage(ChatColor.GREEN + "You bought the item!");
-        player.getInventory().addItem(originalItem);
+
+        Economy economy = AuctionHouse.getEconomy();
+        int price = db.getItemPrice(ItemSerializer.encode(originalItem));
+
+        if (economy.getBalance(player) >= price) {
+            player.sendMessage(ChatColor.GREEN + "You bought the item!");
+            player.getInventory().addItem(originalItem);
+        } else {
+            player.sendMessage(ChatColor.RED + "You cannot afford this item!");
+        }
+
         window.close();
     }
 }

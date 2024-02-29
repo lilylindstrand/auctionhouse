@@ -105,8 +105,6 @@ public class AuctionHouseGUI extends GUI{
         Function<Click, Boolean> function = new Function<Click, Boolean>() {
             @Override
             public Boolean apply(Click click) {
-
-
                 AuctionHouseBuyGUI buyGUI = new AuctionHouseBuyGUI(db, click.getEvent().getCurrentItem(), player, plugin);
                 buyGUI.createGui();
                 return true;
