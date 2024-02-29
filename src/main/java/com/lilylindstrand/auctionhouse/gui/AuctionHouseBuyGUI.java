@@ -83,6 +83,7 @@ public class AuctionHouseBuyGUI extends GUI {
         if (economy.getBalance(player) >= price) {
             player.sendMessage(ChatColor.GREEN + "You bought the item!");
             player.getInventory().addItem(originalItem);
+            economy.withdrawPlayer(player, price);
         } else {
             player.sendMessage(ChatColor.RED + "You cannot afford this item!");
         }
