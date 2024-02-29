@@ -54,9 +54,11 @@ public class AuctionHouseGUI extends GUI{
         Supplier<? extends ItemProvider> supplier = new Supplier<ItemProvider>() {
             @Override
             public ItemProvider get() {
-                while (removedIndex < removedItems.size()) {
+                if (removedIndex != removedItems.size()) {
                     ItemProvider isProvider = createSoldItem();
+
                     if (removedItemsHashMap.get(removedIndex - 1).toString().equals(player.getUniqueId().toString())) {
+                        System.out.println("Woop!");
                         return isProvider;
                     }
                 }
