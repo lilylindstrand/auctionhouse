@@ -35,8 +35,8 @@ public class AuctionHouseGUI extends GUI{
     List<ItemStack> removedItems;
     Window window;
     AuctionHouse plugin;
-    int index = 0;
-    int removedIndex = 0;
+    int index = 1;
+    int removedIndex = 1;
 
     public AuctionHouseGUI(Player player, DatabaseManager db, AuctionHouse plugin) {
         this.player = player;
@@ -49,6 +49,8 @@ public class AuctionHouseGUI extends GUI{
         /* Get all items from database, feed them into a supplier that the GUI can use to display a new item each time.  */
         items = db.getAllItems();
         removedItems = db.getAllRemovedItems();
+        System.out.println(items);
+        if (removedItems != null) { System.out.println(removedItems); }
 
         Supplier<? extends ItemProvider> supplier = new Supplier<ItemProvider>() {
             @Override
@@ -148,6 +150,7 @@ public class AuctionHouseGUI extends GUI{
         // Get Item Data
         int price = db.getItemPrice(index);
         UUID sellerUUID = db.getItemSeller(index);
+        System.out.println(sellerUUID);
         OfflinePlayer seller = Bukkit.getOfflinePlayer(sellerUUID);
 
         // Get time until expiry
