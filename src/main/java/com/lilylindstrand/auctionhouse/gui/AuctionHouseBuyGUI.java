@@ -28,6 +28,7 @@ public class AuctionHouseBuyGUI extends GUI {
     AuctionHouse plugin;
 
     ItemStack originalItem;
+    int itemIndex;
 
     public AuctionHouseBuyGUI(DatabaseManager db, ItemStack displayItem, Player player, AuctionHouse plugin) {
         this.displayItem = displayItem;
@@ -38,7 +39,7 @@ public class AuctionHouseBuyGUI extends GUI {
         // Get the actual item the player is buying
         PersistentDataContainer persistentDataContainer = displayItem.getItemMeta().getPersistentDataContainer();
         NamespacedKey key = plugin.getKey();
-        int itemIndex = persistentDataContainer.get(key, PersistentDataType.INTEGER);
+        itemIndex = persistentDataContainer.get(key, PersistentDataType.INTEGER);
         originalItem = db.getAllItems().get(itemIndex);
     }
 
@@ -73,13 +74,13 @@ public class AuctionHouseBuyGUI extends GUI {
     @Override
     public void onConfirm() {
         Economy economy = AuctionHouse.getEconomy();
-        int price = db.getItemPrice(ItemSerializer.encode(originalItem));
+        int price = db.getItemPrice(itemIndex);
 
         if (economy.getBalance(player) >= price) {
             player.sendMessage(ChatColor.GREEN + "You bought the item!");
             player.getInventory().addItem(originalItem);
             economy.withdrawPlayer(player, price);
-            db.sellItem(ItemSerializer.encode(originalItem), player.getUniqueId(), price);
+            db.sellItem(itemIndex, ItemSerializer.encode(originalItem), player.getUniqueId(), price);
         } else {
             player.sendMessage(ChatColor.RED + "You cannot afford this item!");
         }

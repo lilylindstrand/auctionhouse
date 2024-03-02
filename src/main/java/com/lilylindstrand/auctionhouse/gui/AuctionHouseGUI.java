@@ -33,11 +33,10 @@ public class AuctionHouseGUI extends GUI{
     DatabaseManager db;
     List<ItemStack> items;
     List<ItemStack> removedItems;
-    HashMap<Integer, UUID> removedItemsHashMap = new HashMap<>();
-    int removedIndex = 0;
-    int index = 0;
     Window window;
     AuctionHouse plugin;
+    int index = 0;
+    int removedIndex = 0;
 
     public AuctionHouseGUI(Player player, DatabaseManager db, AuctionHouse plugin) {
         this.player = player;
@@ -57,10 +56,9 @@ public class AuctionHouseGUI extends GUI{
                 while (removedIndex != removedItems.size()) {
                     ItemProvider isProvider = createSoldItem();
 
-                    if (removedItemsHashMap.get(removedIndex - 1).toString().equals(player.getUniqueId().toString())) {
+                    if (db.getRemovedItemSeller(removedIndex).equals(player.getUniqueId())) {
                         return isProvider;
                     }
-
                 }
 
                 return createItem();
@@ -71,21 +69,6 @@ public class AuctionHouseGUI extends GUI{
         Function<Click, Boolean> function = new Function<Click, Boolean>() {
             @Override
             public Boolean apply(Click click) {
-//            if (Boolean.TRUE.equals(click.getEvent().getCurrentItem().getItemMeta().getPersistentDataContainer()
-//                    .get(plugin.getSoldItemKey(), PersistentDataType.BOOLEAN))) {
-//                ItemStack is = (ItemStack) createSoldItem();
-//                ItemMeta isMeta = is.getItemMeta();
-//                PersistentDataContainer persistentDataContainer = isMeta.getPersistentDataContainer();
-//                NamespacedKey itemIdKey = plugin.getKey();
-//
-//                int id = persistentDataContainer.get(itemIdKey, PersistentDataType.INTEGER);
-//
-//                AuctionHouse.getEconomy().depositPlayer(player, db.getSoldItemPrice(ItemSerializer.encode(removedItems.get(id))));
-//                db.deleteRemovedItem(ItemSerializer.encode(removedItems.get(id)));
-//                closeGUI();
-//                return true;
-//            }
-
                 AuctionHouseBuyGUI buyGUI = new AuctionHouseBuyGUI(db, click.getEvent().getCurrentItem(), player, plugin);
                 buyGUI.createGui();
                 return true;
@@ -128,8 +111,8 @@ public class AuctionHouseGUI extends GUI{
 
     public ItemProvider createSoldItem() {
         // Get Item Data
-        int price = db.getSoldItemPrice(ItemSerializer.encode(removedItems.get(removedIndex)));
-        UUID sellerUUID = db.getRemovedItemSeller(ItemSerializer.encode(removedItems.get(removedIndex)));
+        int price = db.getSoldItemPrice(removedIndex);
+        UUID sellerUUID = db.getRemovedItemSeller(removedIndex);
 
         // Modify item for GUI
         ItemStack tempItem = removedItems.get(removedIndex);
@@ -145,13 +128,9 @@ public class AuctionHouseGUI extends GUI{
         // Set items PDC, so that the Buy GUI can obtain the original item later (Value = current index)
         PersistentDataContainer persistentDataContainer = tempItemItemMeta.getPersistentDataContainer();
         NamespacedKey soldItemKey = plugin.getSoldItemKey();
-        NamespacedKey itemIdKey = plugin.getKey();
         persistentDataContainer.set(soldItemKey, PersistentDataType.BOOLEAN, true);
-        persistentDataContainer.set(itemIdKey, PersistentDataType.INTEGER, removedIndex);
-
 
         tempItem.setItemMeta(tempItemItemMeta);
-        removedItemsHashMap.put(removedIndex, sellerUUID);
         removedIndex++;
         return new ItemWrapper(tempItem);
     }
@@ -167,12 +146,12 @@ public class AuctionHouseGUI extends GUI{
         }
 
         // Get Item Data
-        int price = db.getItemPrice(ItemSerializer.encode(items.get(index)));
-        UUID sellerUUID = db.getItemSeller(ItemSerializer.encode(items.get(index)));
+        int price = db.getItemPrice(index);
+        UUID sellerUUID = db.getItemSeller(index);
         OfflinePlayer seller = Bukkit.getOfflinePlayer(sellerUUID);
 
         // Get time until expiry
-        Date uploadDate = db.getItemDate(ItemSerializer.encode(items.get(index)));
+        Date uploadDate = db.getItemDate(index);
         Date newDate = new Date(uploadDate.getTime());
         LocalDateTime uploadDateTime = newDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
         LocalDateTime currentDateTime = LocalDateTime.now();
