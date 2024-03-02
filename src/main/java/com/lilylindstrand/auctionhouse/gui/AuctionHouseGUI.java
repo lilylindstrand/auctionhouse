@@ -68,6 +68,10 @@ public class AuctionHouseGUI extends GUI{
             @Override
             public Boolean apply(Click click) {
 
+                if (click.getEvent().getCurrentItem() == null) {
+                    return false;
+                }
+
                 if (Boolean.TRUE.equals(click.getEvent().getCurrentItem().getItemMeta().getPersistentDataContainer().get(plugin.getSoldItemKey(), PersistentDataType.BOOLEAN)) == true) {
                     ItemStack item = click.getEvent().getCurrentItem();
                     ItemMeta itemMeta = item.getItemMeta();
