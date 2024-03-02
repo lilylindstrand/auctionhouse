@@ -143,7 +143,7 @@ public class AuctionHouseGUI extends GUI{
 
     public ItemProvider createItem() {
         // GUI needs to process 28 items per page. If there are less than 28 items, return air for the rest.
-        if (index >= (items.size())) {
+        if (index >= (items.size() + 1)) {
             return new SimpleItem(new ItemBuilder(Material.AIR)).getItemProvider();
         }
 
