@@ -58,7 +58,6 @@ public class AuctionHouseGUI extends GUI{
                     ItemProvider isProvider = createSoldItem();
 
                     if (removedItemsHashMap.get(removedIndex - 1).toString().equals(player.getUniqueId().toString())) {
-                        System.out.println("Woop!");
                         return isProvider;
                     }
 
