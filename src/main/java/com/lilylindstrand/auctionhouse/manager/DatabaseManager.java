@@ -84,8 +84,7 @@ public class DatabaseManager {
     }
 
     public void sellItem(int index, String base64Item, UUID sellerUUID, int price) {
-        int id = index;
-        id++;
+        int id = index + getLowestSoldId();
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "INSERT INTO removeditems (item, selleruuid, price, sold, expired) VALUES (?, ?, ?, ?, ?)"
@@ -122,8 +121,7 @@ public class DatabaseManager {
     }
 
     public void deleteRemovedItem(int index) {
-        int id = index;
-        id++;
+        int id = index + getLowestSoldId();
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "DELETE FROM removeditems WHERE id = ?"
@@ -151,8 +149,7 @@ public class DatabaseManager {
     }
 
     public int getItemPrice(int index) {
-        int id = index;
-        id++;
+        int id = index + getLowestId();
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT price FROM auctionhouse WHERE id = ?"
@@ -168,8 +165,7 @@ public class DatabaseManager {
     }
 
     public UUID getItemSeller(int index) {
-        int id = index;
-        id++;
+        int id = index + getLowestId();
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT selleruuid FROM auctionhouse WHERE id = ?"
@@ -185,8 +181,7 @@ public class DatabaseManager {
     }
 
     public Timestamp getItemDate(int index) {
-        int id = index;
-        id++;
+        int id = index + getLowestId();
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT upload_date FROM auctionhouse WHERE id = ?"
@@ -217,8 +212,7 @@ public class DatabaseManager {
     }
 
     public int getSoldItemPrice(int index) {
-        int id = index;
-        id++;
+        int id = index + getLowestSoldId();
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT price FROM removeditems WHERE id = ?"
@@ -234,8 +228,7 @@ public class DatabaseManager {
     }
 
     public boolean isSold(int index) { //todo: Use this instead of PDC now that I did the key migration
-        int id = index;
-        id++;
+        int id = index + getLowestSoldId();
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT sold FROM removeditems WHERE id = ?"
@@ -251,8 +244,7 @@ public class DatabaseManager {
     }
 
     public boolean isExpired(int index) {
-        int id = index;
-        id++;
+        int id = index + getLowestSoldId();
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT expired FROM removeditems WHERE id = ?"
@@ -268,8 +260,7 @@ public class DatabaseManager {
     }
 
     public UUID getRemovedItemSeller(int index) {
-        int id = index;
-        id++;
+        int id = index + getLowestSoldId();
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT selleruuid FROM removeditems WHERE id = ?"
@@ -284,56 +275,34 @@ public class DatabaseManager {
         return null;
     }
 
-    public int getLatestId() {
+    public int getLowestId() {
         try {
-
-            PreparedStatement statement = connection.prepareStatement("SELECT MAX(id) FROM auctionhouse");
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT MIN(id) FROM auctionhouse"
+            );
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getInt(1);
             }
-            return 1;
+            return 0;
         }
         catch (SQLException e) { throw new RuntimeException(e); }
+
     }
 
-    public int getLatestRemovedId() {
+    public int getLowestSoldId() {
         try {
-
-            PreparedStatement statement = connection.prepareStatement("SELECT MAX(id) FROM removeditems");
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT MIN(id) FROM removeditems"
+            );
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getInt(1);
             }
-            return 1;
+            return 0;
         }
         catch (SQLException e) { throw new RuntimeException(e); }
-    }
 
-    public int getFirstId() {
-        try {
-
-            PreparedStatement statement = connection.prepareStatement("SELECT MIN(id) FROM auctionhouse");
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                return resultSet.getInt(1);
-            }
-            return 1;
-        }
-        catch (SQLException e) { throw new RuntimeException(e); }
-    }
-
-    public int getFirstRemovedId() {
-        try {
-
-            PreparedStatement statement = connection.prepareStatement("SELECT MIN(id) FROM removeditems");
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                return resultSet.getInt(1);
-            }
-            return 1;
-        }
-        catch (SQLException e) { throw new RuntimeException(e); }
     }
 
 }

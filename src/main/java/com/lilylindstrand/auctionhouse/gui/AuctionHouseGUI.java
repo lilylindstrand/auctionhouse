@@ -35,16 +35,16 @@ public class AuctionHouseGUI extends GUI{
     List<ItemStack> removedItems;
     Window window;
     AuctionHouse plugin;
-    int index;
-    int removedIndex;
+    int index = 0;
+    int removedIndex = 0;
 
     public AuctionHouseGUI(Player player, DatabaseManager db, AuctionHouse plugin) {
         this.player = player;
         this.db = db;
         this.plugin = plugin;
 
-        index = db.getFirstId() - 1;
-        removedIndex = db.getFirstRemovedId() - 1;
+        System.out.println(index);
+        System.out.println(removedIndex);
     }
 
     public void createGui() {
@@ -65,6 +65,8 @@ public class AuctionHouseGUI extends GUI{
                     removedIndex++;
                 }
 
+                System.out.println(index);
+                System.out.println(removedIndex);
                 return createItem();
             }
         };
@@ -115,8 +117,8 @@ public class AuctionHouseGUI extends GUI{
 
     public ItemProvider createSoldItem() {
         // Get Item Data
-        int price = db.getSoldItemPrice(removedIndex);
-        UUID sellerUUID = db.getRemovedItemSeller(removedIndex);
+        int price = db.getSoldItemPrice(index);
+        UUID sellerUUID = db.getRemovedItemSeller(index);
 
         // Modify item for GUI
         ItemStack tempItem = removedItems.get(removedIndex);
@@ -185,7 +187,15 @@ public class AuctionHouseGUI extends GUI{
         persistentDataContainer.set(itemId, PersistentDataType.INTEGER, index);
 
         tempItem.setItemMeta(tempItemItemMeta);
+
+        System.out.println(index);
+        System.out.println(removedIndex);
+
         index++;
+
+        System.out.println(index);
+        System.out.println(removedIndex);
+
         return new ItemWrapper(tempItem);
     }
 
