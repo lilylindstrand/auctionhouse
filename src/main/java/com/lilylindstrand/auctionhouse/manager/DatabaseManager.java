@@ -83,7 +83,8 @@ public class DatabaseManager {
         catch (SQLException e) { throw new RuntimeException(e); }
     }
 
-    public void sellItem(int id, String base64Item, UUID sellerUUID, int price) {
+    public void sellItem(int index, String base64Item, UUID sellerUUID, int price) {
+        int id = index;
         id++;
         try {
             PreparedStatement statement = connection.prepareStatement(
@@ -120,7 +121,8 @@ public class DatabaseManager {
         catch (SQLException e) { throw new RuntimeException(e); }
     }
 
-    public void deleteRemovedItem(int id) {
+    public void deleteRemovedItem(int index) {
+        int id = index;
         id++;
         try {
             PreparedStatement statement = connection.prepareStatement(
@@ -148,7 +150,8 @@ public class DatabaseManager {
         catch (SQLException e) { throw new RuntimeException(e); }
     }
 
-    public int getItemPrice(int id) {
+    public int getItemPrice(int index) {
+        int id = index;
         id++;
         try {
             PreparedStatement statement = connection.prepareStatement(
@@ -164,7 +167,8 @@ public class DatabaseManager {
         return 0;
     }
 
-    public UUID getItemSeller(int id) {
+    public UUID getItemSeller(int index) {
+        int id = index;
         id++;
         try {
             PreparedStatement statement = connection.prepareStatement(
@@ -180,7 +184,8 @@ public class DatabaseManager {
         return null;
     }
 
-    public Timestamp getItemDate(int id) {
+    public Timestamp getItemDate(int index) {
+        int id = index;
         id++;
         try {
             PreparedStatement statement = connection.prepareStatement(
@@ -211,7 +216,8 @@ public class DatabaseManager {
         catch (SQLException e) { throw new RuntimeException(e); }
     }
 
-    public int getSoldItemPrice(int id) {
+    public int getSoldItemPrice(int index) {
+        int id = index;
         id++;
         try {
             PreparedStatement statement = connection.prepareStatement(
@@ -227,7 +233,8 @@ public class DatabaseManager {
         return 0;
     }
 
-    public boolean isSold(int id) { //todo: Use this instead of PDC now that I did the key migration
+    public boolean isSold(int index) { //todo: Use this instead of PDC now that I did the key migration
+        int id = index;
         id++;
         try {
             PreparedStatement statement = connection.prepareStatement(
@@ -243,7 +250,8 @@ public class DatabaseManager {
         return false;
     }
 
-    public boolean isExpired(int id) {
+    public boolean isExpired(int index) {
+        int id = index;
         id++;
         try {
             PreparedStatement statement = connection.prepareStatement(
@@ -259,7 +267,8 @@ public class DatabaseManager {
         return false;
     }
 
-    public UUID getRemovedItemSeller(int id) {
+    public UUID getRemovedItemSeller(int index) {
+        int id = index;
         id++;
         try {
             PreparedStatement statement = connection.prepareStatement(
@@ -273,6 +282,58 @@ public class DatabaseManager {
         }
         catch (SQLException e) { throw new RuntimeException(e); }
         return null;
+    }
+
+    public int getLatestId() {
+        try {
+
+            PreparedStatement statement = connection.prepareStatement("SELECT MAX(id) FROM auctionhouse");
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+            return 1;
+        }
+        catch (SQLException e) { throw new RuntimeException(e); }
+    }
+
+    public int getLatestRemovedId() {
+        try {
+
+            PreparedStatement statement = connection.prepareStatement("SELECT MAX(id) FROM removeditems");
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+            return 1;
+        }
+        catch (SQLException e) { throw new RuntimeException(e); }
+    }
+
+    public int getFirstId() {
+        try {
+
+            PreparedStatement statement = connection.prepareStatement("SELECT MIN(id) FROM auctionhouse");
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+            return 1;
+        }
+        catch (SQLException e) { throw new RuntimeException(e); }
+    }
+
+    public int getFirstRemovedId() {
+        try {
+
+            PreparedStatement statement = connection.prepareStatement("SELECT MIN(id) FROM removeditems");
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+            return 1;
+        }
+        catch (SQLException e) { throw new RuntimeException(e); }
     }
 
 }

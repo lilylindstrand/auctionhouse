@@ -40,7 +40,7 @@ public class AuctionHouseBuyGUI extends GUI {
         PersistentDataContainer persistentDataContainer = displayItem.getItemMeta().getPersistentDataContainer();
         NamespacedKey key = plugin.getKey();
         itemIndex = persistentDataContainer.get(key, PersistentDataType.INTEGER);
-        originalItem = db.getAllItems().get(itemIndex - 1);
+        originalItem = db.getAllItems().get(itemIndex);
     }
 
     public void createGui() {

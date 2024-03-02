@@ -35,13 +35,16 @@ public class AuctionHouseGUI extends GUI{
     List<ItemStack> removedItems;
     Window window;
     AuctionHouse plugin;
-    int index = 0;
-    int removedIndex = 0;
+    int index;
+    int removedIndex;
 
     public AuctionHouseGUI(Player player, DatabaseManager db, AuctionHouse plugin) {
         this.player = player;
         this.db = db;
         this.plugin = plugin;
+
+        index = db.getFirstId() - 1;
+        removedIndex = db.getFirstRemovedId() - 1;
     }
 
     public void createGui() {
@@ -57,7 +60,6 @@ public class AuctionHouseGUI extends GUI{
             public ItemProvider get() {
                 while (removedIndex != removedItems.size()) {
                     if (db.getRemovedItemSeller(removedIndex).equals(player.getUniqueId())) {
-                        removedIndex++;
                         return createSoldItem();
                     }
                     removedIndex++;
@@ -133,6 +135,7 @@ public class AuctionHouseGUI extends GUI{
         persistentDataContainer.set(soldItemKey, PersistentDataType.BOOLEAN, true);
 
         tempItem.setItemMeta(tempItemItemMeta);
+        removedIndex++;
         return new ItemWrapper(tempItem);
     }
 
