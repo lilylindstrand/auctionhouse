@@ -56,11 +56,11 @@ public class AuctionHouseGUI extends GUI{
             @Override
             public ItemProvider get() {
                 while (removedIndex != removedItems.size()) {
-                    ItemProvider isProvider = createSoldItem();
-
                     if (db.getRemovedItemSeller(removedIndex).equals(player.getUniqueId())) {
-                        return isProvider;
+                        removedIndex++;
+                        return createSoldItem();
                     }
+                    removedIndex++;
                 }
 
                 return createItem();
@@ -133,7 +133,6 @@ public class AuctionHouseGUI extends GUI{
         persistentDataContainer.set(soldItemKey, PersistentDataType.BOOLEAN, true);
 
         tempItem.setItemMeta(tempItemItemMeta);
-        removedIndex++;
         return new ItemWrapper(tempItem);
     }
 
