@@ -42,9 +42,6 @@ public class AuctionHouseGUI extends GUI{
         this.player = player;
         this.db = db;
         this.plugin = plugin;
-
-        System.out.println(index);
-        System.out.println(removedIndex);
     }
 
     public void createGui() {
@@ -52,9 +49,7 @@ public class AuctionHouseGUI extends GUI{
         /* Get all items from database, feed them into a supplier that the GUI can use to display a new item each time.  */
         items = db.getAllItems();
         removedItems = db.getAllRemovedItems();
-        System.out.println(items);
-        if (removedItems != null) { System.out.println(removedItems); }
-
+        
         Supplier<? extends ItemProvider> supplier = new Supplier<ItemProvider>() {
             @Override
             public ItemProvider get() {
@@ -64,9 +59,6 @@ public class AuctionHouseGUI extends GUI{
                     }
                     removedIndex++;
                 }
-
-                System.out.println(index);
-                System.out.println(removedIndex);
                 return createItem();
             }
         };
@@ -154,7 +146,6 @@ public class AuctionHouseGUI extends GUI{
         // Get Item Data
         int price = db.getItemPrice(index);
         UUID sellerUUID = db.getItemSeller(index);
-        System.out.println(sellerUUID);
         OfflinePlayer seller = Bukkit.getOfflinePlayer(sellerUUID);
 
         // Get time until expiry
@@ -185,17 +176,9 @@ public class AuctionHouseGUI extends GUI{
         PersistentDataContainer persistentDataContainer = tempItemItemMeta.getPersistentDataContainer();
         NamespacedKey itemId = plugin.getKey();
         persistentDataContainer.set(itemId, PersistentDataType.INTEGER, index);
-
         tempItem.setItemMeta(tempItemItemMeta);
 
-        System.out.println(index);
-        System.out.println(removedIndex);
-
         index++;
-
-        System.out.println(index);
-        System.out.println(removedIndex);
-
         return new ItemWrapper(tempItem);
     }
 
