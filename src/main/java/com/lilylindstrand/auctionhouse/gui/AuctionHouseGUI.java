@@ -35,8 +35,8 @@ public class AuctionHouseGUI extends GUI{
     List<ItemStack> removedItems;
     Window window;
     AuctionHouse plugin;
-    int index = 1;
-    int removedIndex = 1;
+    int index = 0;
+    int removedIndex = 0;
 
     public AuctionHouseGUI(Player player, DatabaseManager db, AuctionHouse plugin) {
         this.player = player;
@@ -55,7 +55,7 @@ public class AuctionHouseGUI extends GUI{
         Supplier<? extends ItemProvider> supplier = new Supplier<ItemProvider>() {
             @Override
             public ItemProvider get() {
-                while (removedIndex != removedItems.size() + 1) {
+                while (removedIndex != removedItems.size()) {
                     ItemProvider isProvider = createSoldItem();
 
                     if (db.getRemovedItemSeller(removedIndex).equals(player.getUniqueId())) {
@@ -117,7 +117,7 @@ public class AuctionHouseGUI extends GUI{
         UUID sellerUUID = db.getRemovedItemSeller(removedIndex);
 
         // Modify item for GUI
-        ItemStack tempItem = removedItems.get(removedIndex - 1);
+        ItemStack tempItem = removedItems.get(removedIndex);
         ItemMeta tempItemItemMeta = tempItem.getItemMeta();
         List<String> lore;
         if (tempItemItemMeta.hasLore()) { lore = tempItemItemMeta.getLore(); }
@@ -143,7 +143,7 @@ public class AuctionHouseGUI extends GUI{
 
     public ItemProvider createItem() {
         // GUI needs to process 28 items per page. If there are less than 28 items, return air for the rest.
-        if (index >= (items.size() + 1)) {
+        if (index >= (items.size())) {
             return new SimpleItem(new ItemBuilder(Material.AIR)).getItemProvider();
         }
 
@@ -167,7 +167,7 @@ public class AuctionHouseGUI extends GUI{
         else { time = minutes + " minutes"; }
 
         // Modify item for GUI
-        ItemStack tempItem = items.get(index - 1);
+        ItemStack tempItem = items.get(index);
         ItemMeta tempItemItemMeta = tempItem.getItemMeta();
         List<String> lore;
         if (tempItemItemMeta.hasLore()) { lore = tempItemItemMeta.getLore(); }

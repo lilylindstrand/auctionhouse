@@ -84,6 +84,7 @@ public class DatabaseManager {
     }
 
     public void sellItem(int id, String base64Item, UUID sellerUUID, int price) {
+        id++;
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "INSERT INTO removeditems (item, selleruuid, price, sold, expired) VALUES (?, ?, ?, ?, ?)"
@@ -120,6 +121,7 @@ public class DatabaseManager {
     }
 
     public void deleteRemovedItem(int id) {
+        id++;
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "DELETE FROM removeditems WHERE id = ?"
@@ -147,6 +149,7 @@ public class DatabaseManager {
     }
 
     public int getItemPrice(int id) {
+        id++;
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT price FROM auctionhouse WHERE id = ?"
@@ -162,6 +165,7 @@ public class DatabaseManager {
     }
 
     public UUID getItemSeller(int id) {
+        id++;
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT selleruuid FROM auctionhouse WHERE id = ?"
@@ -177,6 +181,7 @@ public class DatabaseManager {
     }
 
     public Timestamp getItemDate(int id) {
+        id++;
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT upload_date FROM auctionhouse WHERE id = ?"
@@ -207,6 +212,7 @@ public class DatabaseManager {
     }
 
     public int getSoldItemPrice(int id) {
+        id++;
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT price FROM removeditems WHERE id = ?"
@@ -221,7 +227,8 @@ public class DatabaseManager {
         return 0;
     }
 
-    public boolean isSold(int id) {
+    public boolean isSold(int id) { //todo: Use this instead of PDC now that I did the key migration
+        id++;
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT sold FROM removeditems WHERE id = ?"
@@ -237,6 +244,7 @@ public class DatabaseManager {
     }
 
     public boolean isExpired(int id) {
+        id++;
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT expired FROM removeditems WHERE id = ?"
@@ -252,6 +260,7 @@ public class DatabaseManager {
     }
 
     public UUID getRemovedItemSeller(int id) {
+        id++;
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT selleruuid FROM removeditems WHERE id = ?"
