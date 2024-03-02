@@ -55,7 +55,7 @@ public class AuctionHouseGUI extends GUI{
         Supplier<? extends ItemProvider> supplier = new Supplier<ItemProvider>() {
             @Override
             public ItemProvider get() {
-                while (removedIndex != removedItems.size()) {
+                while (removedIndex != removedItems.size() + 1) {
                     ItemProvider isProvider = createSoldItem();
 
                     if (db.getRemovedItemSeller(removedIndex).equals(player.getUniqueId())) {
@@ -117,7 +117,7 @@ public class AuctionHouseGUI extends GUI{
         UUID sellerUUID = db.getRemovedItemSeller(removedIndex);
 
         // Modify item for GUI
-        ItemStack tempItem = removedItems.get(removedIndex);
+        ItemStack tempItem = removedItems.get(removedIndex - 1);
         ItemMeta tempItemItemMeta = tempItem.getItemMeta();
         List<String> lore;
         if (tempItemItemMeta.hasLore()) { lore = tempItemItemMeta.getLore(); }
@@ -167,7 +167,7 @@ public class AuctionHouseGUI extends GUI{
         else { time = minutes + " minutes"; }
 
         // Modify item for GUI
-        ItemStack tempItem = items.get(index);
+        ItemStack tempItem = items.get(index - 1);
         ItemMeta tempItemItemMeta = tempItem.getItemMeta();
         List<String> lore;
         if (tempItemItemMeta.hasLore()) { lore = tempItemItemMeta.getLore(); }
