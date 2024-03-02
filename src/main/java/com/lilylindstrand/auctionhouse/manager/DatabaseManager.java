@@ -84,7 +84,7 @@ public class DatabaseManager {
     }
 
     public void sellItem(int index, String base64Item, UUID sellerUUID, int price) {
-        int id = index + getLowestSoldId();
+        int id = index + getLowestId();
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "INSERT INTO removeditems (item, selleruuid, price, sold, expired) VALUES (?, ?, ?, ?, ?)"
