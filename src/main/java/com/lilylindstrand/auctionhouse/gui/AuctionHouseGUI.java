@@ -67,6 +67,21 @@ public class AuctionHouseGUI extends GUI{
         Function<Click, Boolean> function = new Function<Click, Boolean>() {
             @Override
             public Boolean apply(Click click) {
+
+                if (Boolean.TRUE.equals(click.getEvent().getCurrentItem().getItemMeta().getPersistentDataContainer().get(plugin.getSoldItemKey(), PersistentDataType.BOOLEAN)) == true) {
+                    ItemStack item = click.getEvent().getCurrentItem();
+                    ItemMeta itemMeta = item.getItemMeta();
+                    PersistentDataContainer persistentDataContainer = itemMeta.getPersistentDataContainer();
+                    int id = persistentDataContainer.get(plugin.getKey(), PersistentDataType.INTEGER);
+
+                    AuctionHouse.getEconomy().depositPlayer(player, db.getSoldItemPrice(id));
+                    player.sendMessage(ChatColor.GREEN + "You claimed your sold auction for " + db.getSoldItemPrice(id));
+                    window.close();
+
+                    db.deleteRemovedItem(id);
+                    return true;
+                }
+
                 AuctionHouseBuyGUI buyGUI = new AuctionHouseBuyGUI(db, click.getEvent().getCurrentItem(), player, plugin);
                 buyGUI.createGui();
                 return true;
@@ -126,7 +141,9 @@ public class AuctionHouseGUI extends GUI{
         // Set items PDC, so that the Buy GUI can obtain the original item later (Value = current index)
         PersistentDataContainer persistentDataContainer = tempItemItemMeta.getPersistentDataContainer();
         NamespacedKey soldItemKey = plugin.getSoldItemKey();
+        NamespacedKey itemId = plugin.getKey();
         persistentDataContainer.set(soldItemKey, PersistentDataType.BOOLEAN, true);
+        persistentDataContainer.set(itemId, PersistentDataType.INTEGER, removedIndex);
 
         tempItem.setItemMeta(tempItemItemMeta);
         removedIndex++;
