@@ -49,7 +49,7 @@ public class AuctionHouseGUI extends GUI{
         /* Get all items from database, feed them into a supplier that the GUI can use to display a new item each time.  */
         items = db.getAllItems();
         removedItems = db.getAllRemovedItems();
-        
+
         Supplier<? extends ItemProvider> supplier = new Supplier<ItemProvider>() {
             @Override
             public ItemProvider get() {
